@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzh.crm.workbench.dao.ContactsActivityRelationDao">
+	
+	<!--绑定联系人与市场活动关系-->
+	<insert id="saveRelation">
+		insert into tbl_contacts_activity_relation(
+			id,
+			contactsId,
+			activityId
+		) values(
+			#{id},
+			#{contactsId},
+			#{activityId}
+		)
+	</insert>
+  	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzh.crm.workbench.dao.ClueActivityRelationDao">
+	
+	<!--删除一条线索与市场活动的关联-->
+	<delete id="unbund">
+		delete from tbl_clue_activity_relation where id=#{relationId}
+	</delete>
+	
+	<!--新增一条线索与市场活动的关联-->
+	<insert id="bundActivity">
+		insert into tbl_clue_activity_relation(id,clueId,activityId)
+		values(#{id},#{clueId},#{activityId})
+	</insert>
+	
+	<!--查询关联了线索id的所有市场活动-->
+	<select id="getRelationListByClueId" resultType="com.hzh.crm.workbench.domain.ClueActivityRelation">
+		select * from tbl_clue_activity_relation where clueId=#{clueId}
+	</select>
+	
+	<!--删除关联关系-->
+	<delete id="deleteRelation">
+		delete from tbl_clue_activity_relation where id=#{id}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

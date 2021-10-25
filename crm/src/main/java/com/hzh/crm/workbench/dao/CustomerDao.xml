@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzh.crm.workbench.dao.CustomerDao">
+	
+	<!--根据名称精准查询-->
+  	<select id="selectCustomerByName" resultType="com.hzh.crm.workbench.domain.Customer">
+		select * from tbl_customer where name=#{name}
+	</select>
+	
+	<!--新增客户-->
+	<insert id="saveCustomer">
+		insert into tbl_customer(
+		id,
+		owner,
+		name,
+		website,
+		phone,
+		createBy,
+		createTime,
+		contactSummary,
+		nextContactTime,
+		description,
+		address
+		) values(
+		#{id},
+		#{owner},
+		#{name},
+		#{website},
+		#{phone},
+		#{createBy},
+		#{createTime},
+		#{contactSummary},
+		#{nextContactTime},
+		#{description},
+		#{address}
+		)
+	</insert>
+	
+	<!--根据名称模糊查询-->
+	<select id="getCustomerName" resultType="String" >
+		select name from tbl_customer where name like concat('%',#{name},'%')
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

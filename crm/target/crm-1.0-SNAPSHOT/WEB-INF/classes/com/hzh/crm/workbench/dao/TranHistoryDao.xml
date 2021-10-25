@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzh.crm.workbench.dao.TranHistoryDao">
+	
+	<!--新增一条交易历史信息-->
+	<insert id="saveTranHistory">
+		insert into tbl_tran_history(
+			id,
+			stage,
+			money,
+			expectedDate,
+			createTime,
+			createBy,
+			tranId
+		) values(
+			#{id},
+			#{stage},
+			#{money},
+			#{expectedDate},
+			#{createTime},
+			#{createBy},
+			#{tranId}
+		)
+	</insert>
+ 
+	<!--根据交易id查询交易历史-->
+	<select id="getHistoryListByTranId" resultType="com.hzh.crm.workbench.domain.TranHistory">
+		select
+			id,stage,money,expectedDate,createTime,createBy,tranId
+		from tbl_tran_history
+		where tranId=#{tranId}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

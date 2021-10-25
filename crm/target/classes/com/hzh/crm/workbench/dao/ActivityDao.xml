@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hzh.crm.workbench.dao.ActivityDao">
+	
+	<!--新增市场活动-->
+	<insert id="saveActivity">
+		insert into tbl_activity(
+			id,owner,name,startDate,endDate,cost,description,createTime,createBy
+		) values(
+			#{id},#{owner},#{name},#{startDate},#{endDate},#{cost},#{description},#{createTime},#{createBy}
+		)
+	</insert>
+
+	<!--分页查询市场活动-->
+	<select id="pageSelectActivity" resultType="com.hzh.crm.workbench.domain.Activity">
+		select a.id,u.name as owner,a.name,a.startDate,a.endDate
+		from tbl_activity a
+		join tbl_user u on a.owner=u.id
+		<where>
+			<if test="name != null and name != ''">
+				and a.name like '%' #{name} '%'
+			</if>
+			<if test="owner != null and owner != ''">
+				and u.name like '%' #{owner} '%'
+			</if>
+			<if test="startDate != null and startDate != ''">
+				and a.startDate &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and a.endDate &lt; #{endDate}
+			</if>
+		</where>
+		order by a.createTime desc
+		limit #{startLimit},#{pageSize}
+	</select>
+	
+	<!--查询所有的分页查询市场活动的总条数-->
+	<select id="selectCountActivity" resultType="int" >
+		select count(*)
+		from tbl_activity a join tbl_user u on a.owner=u.id
+		<where>
+			<if test="name != null and name != ''">
+				and a.name like '%' #{name} '%'
+			</if>
+			<if test="owner != null and owner != ''">
+				and u.name like '%' #{owner} '%'
+			</if>
+			<if test="startDate != null and startDate != ''">
+				and a.startDate &gt; #{startDate}
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and a.endDate &lt; #{endDate}
+			</if>
+		</where>
+	</select>
+	
+	<!--根据id删除关联的市场活动-->
+	<delete id="deleteActivityByIds" >
+		delete from tbl_activity where id in
+		<foreach collection="array" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<!--根据id查询市场活动-->
+	<select id="selectActivityById" resultType="com.hzh.crm.workbench.domain.Activity">
+		select id,owner,name,startDate,endDate,cost,description from tbl_activity where id=#{id}
+	</select>
+	
+	<!--修改指定id的市场活动项-->
+	<update id="updateActivity">
+		update tbl_activity set
+		owner=#{owner},name=#{name},startDate=#{startDate},endDate=#{endDate},cost=#{cost},description=#{description},editTime=#{editTime},editBy=#{editBy}
+		where id=#{id}
+	</update>
+	
+	<!--根据id查询市场活动，该市场活动的所有者-->
+	<select id="selectActivityDetail" resultType="com.hzh.crm.workbench.domain.Activity">
+		select a.id,u.name as owner,a.name,a.startDate,a.endDate,a.cost,a.description,a.createTime,a.createBy,a.editTime,a.editBy
+		from tbl_activity a
+		join tbl_user u on a.owner=u.id
+		where a.id=#{id}
+	</select>
+	
+	<!--根据线索id查询关联的市场活动-->
+	<select id="getActivityListByClueId" resultType="com.hzh.crm.workbench.domain.Activity">
+		select
+			 car.id as id,u.name as owner,a.name,a.startDate,a.endDate
+		from tbl_activity a
+		join tbl_clue_activity_relation car
+		on a.id=car.activityId
+		join tbl_user u
+		on a.owner=u.id
+		where car.clueId=#{clueId}
+	</select>
+	
+	<!--根据名称模糊查询市场活动，要求未绑定给定的线索id-->
+	<select id="getActivityListByNameNotClueId" resultType="com.hzh.crm.workbench.domain.Activity">
+		select
+		a.id,a.name,u.name as owner,a.startDate,a.endDate
+		from tbl_activity a
+		join tbl_user u
+		on a.owner=u.id
+		where a.name like concat('%',#{activityName},'%')
+	    and a.id not in(
+		    select activityId from tbl_clue_activity_relation
+		    where clueId=#{clueId}
+		)
+	</select>
+	
+	<!--根据名称模糊查询市场活动-->
+	<select id="getActivityListByName" resultType="com.hzh.crm.workbench.domain.Activity">
+		select
+			a.id,a.name,u.name as owner,a.startDate,a.endDate
+		from tbl_activity a
+			 join tbl_user u
+			 on a.owner=u.id
+		where a.name like concat('%',#{activityName},'%')
+	</select>
+</mapper>
+
+

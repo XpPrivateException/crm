@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+	<!--默认欢迎文件-->
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	<!--默认欢迎文件结束-->
+	
+	<!--
+	add/create:跳转到添加页，或打开添加操作的模态窗口
+	save/insert:执行添加操作
+	edit:跳转到修改也，或打开修改操作的模态窗口
+	update:执行修改操作
+	get/select:执行查询操作
+	create-xxx:新增类的项
+	query-xxx:查询类的项
+	edit-xxx:修改类的项
+	特殊: login登录
+	-->
+	
+	<!--过滤器，过滤所有后端Servlet-->
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>com.hzh.crm.web.filter.EncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<!--过滤器结束-->
+	
+	<!--防止恶意登录过滤器-->
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>com.hzh.crm.web.filter.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<!--防止恶意登录过滤器结束-->
+	
+	<listener>
+		<listener-class>com.hzh.crm.web.listener.SysInitListener</listener-class>
+		
+	</listener>
+	
+	
+	<!--用户模块-->
+	<servlet>
+		<servlet-name>UserController</servlet-name>
+		<servlet-class>com.hzh.crm.settings.web.controller.UserController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserController</servlet-name>
+		<url-pattern>/settings/user/login.do</url-pattern>
+	</servlet-mapping>
+	<!--用户模块结束-->
+
+	<!--市场活动模块-->
+	<servlet>
+		<servlet-name>ActivityController</servlet-name>
+		<servlet-class>com.hzh.crm.workbench.web.controller.ActivityController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActivityController</servlet-name>
+		<!--创建的模态窗口中，所有者选项-->
+		<url-pattern>/workbench/activity/getUsers.do</url-pattern>
+		<!--创建的模态窗口中，新增市场活动-->
+		<url-pattern>/workbench/activity/saveActivity.do</url-pattern>
+		<!--分页查询市场活动-->
+		<url-pattern>/workbench/activity/pageSelectActivity.do</url-pattern>
+		<!--删除市场活动-->
+		<url-pattern>/workbench/activity/deleteActivity.do</url-pattern>
+		<!--查询id相关的市场活动明细-->
+		<url-pattern>/workbench/activity/selectUserAndActivity.do</url-pattern>
+		<!--修改市场活动信息-->
+		<url-pattern>/workbench/activity/updateActivity.do</url-pattern>
+		<!--查询市场活动与关联备注详细信息-->
+		<url-pattern>/workbench/activity/selectActivityDetail.do</url-pattern>
+		<!--根据市场活动id查询关联的所有备注信息-->
+		<url-pattern>/workbench/activity/getRemarkListByActivityId.do</url-pattern>
+		<!--删除备注-->
+		<url-pattern>/workbench/activity/deleteRemarkById.do</url-pattern>
+		<!--新增备注-->
+		<url-pattern>/workbench/activity/saveRemark.do</url-pattern>
+		<!--修改-->
+		<url-pattern>/workbench/activity/updateRemark.do</url-pattern>
+	</servlet-mapping>
+	<!--市场活动模块结束-->
+	
+	<!--线索模块-->
+	<servlet>
+		<servlet-name>ClueController</servlet-name>
+		<servlet-class>com.hzh.crm.workbench.web.controller.ClueController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClueController</servlet-name>
+		<!--获取所有者下拉框选项-->
+		<url-pattern>/workbench/clue/getUserList.do</url-pattern>
+		<!--新增线索-->
+		<url-pattern>/workbench/clue/saveClue.do</url-pattern>
+		<!--分页查询-->
+		<url-pattern>/workbench/clue/pageSelectClue.do</url-pattern>
+		<!--跳转线索详细信息页-->
+		<url-pattern>/workbench/clue/clueDetail.do</url-pattern>
+		<!--根据线索的id查询线索关联的市场活动列表-->
+		<url-pattern>/workbench/clue/getActivityListByClueId.do</url-pattern>
+		<!--根据关系表id删除数据-->
+		<url-pattern>/workbench/clue/unbund.do</url-pattern>
+		<!--根据关键字模糊查询没有关联线索ID的市场活动-->
+		<url-pattern>/workbench/clue/getActivityListByNameNotClueId.do</url-pattern>
+		<!--绑定市场活动联系-->
+		<url-pattern>/workbench/clue/bundActivity.do</url-pattern>
+		<!--根据关键字模糊查询市场活动-->
+		<url-pattern>/workbench/clue/getActivityListByName</url-pattern>
+		<!--线索转换，不需要同时创建交易-->
+		<url-pattern>/workbench/clue/convert.do</url-pattern>
+	</servlet-mapping>
+	<!--线索模块结束-->
+	
+	<!--交易模块-->
+	<servlet>
+		<servlet-name>TranController</servlet-name>
+		<servlet-class>com.hzh.crm.workbench.web.controller.TranController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TranController</servlet-name>
+		<!--跳转交易页面-->
+		<url-pattern>/workbench/transaction/toSaveTran.do</url-pattern>
+		<!--模糊查询客户名称-->
+		<url-pattern>/workbench/transaction/getCustomerName.do</url-pattern>
+		<!--保存交易-->
+		<url-pattern>/workbench/transaction/saveTran.do</url-pattern>
+		<!--跳转细节-->
+		<url-pattern>/workbench/transaction/tranDetail.do</url-pattern>
+		<!--查询交易历史信息-->
+		<url-pattern>/workbench/transaction/getHistoryListByTranId.do</url-pattern>
+		<!--改变交易阶段-->
+		<url-pattern>/workbench/transaction/changeStage.do</url-pattern>
+		<!--获取统计图表-->
+		<url-pattern>/workbench/transaction/getCharts.do</url-pattern>
+	</servlet-mapping>
+	<!--交易模块结束-->
+</web-app>
